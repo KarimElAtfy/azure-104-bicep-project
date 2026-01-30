@@ -1,4 +1,6 @@
+@description('Network security group name.')
 param name string
+@description('Azure region for the NSG.')
 param location string
 
 @description('Security rules for the NSG. This is an array of objects.')
@@ -26,4 +28,3 @@ resource subnetAssociation 'Microsoft.Network/virtualNetworks/subnets@2025-05-01
     }
   }
 ]
-

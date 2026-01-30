@@ -1,9 +1,12 @@
+@description('Public IP resource name.')
 param name string
+@description('Azure region for the public IP.')
 param location string
 
 @description('SKU for Bastion, needs to be Standard')
 param sku string = 'Standard'
 
+@description('Public IP allocation method.')
 param allocation string = 'Static'
 
 
