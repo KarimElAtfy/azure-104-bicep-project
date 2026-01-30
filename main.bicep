@@ -17,6 +17,13 @@ param winWebAdminPassword string
 
 @description('Azure Bastion configuration object.')
 param bastion object
+
+param linuxWebConfig object
+
+@secure()
+param linuxWebAdminPassword string
+param testvnet object
+
 var nsgAttachements = [
   {
    vnetName: vnet.name
@@ -103,5 +110,29 @@ module devLoadBalancer 'Modules/network/internal-lb.bicep' = {
     lbName: lbname
     location: location
     subnetId: devnet.outputs.subnetIds[0].id
+  }
+}
+
+module testnet 'Modules/network/vnet.bicep' = {
+  name: 'test-network'
+  params: {
+    name: testvnet.name
+    location: location
+    addressPrefixes: testvnet.addressPrefixes
+    subnets: testvnet.subnets
+  }
+}
+
+
+module linuxVm 'Modules/compute/linuxVm.bicep' = {
+  name: 'linuxvm-dev'
+  params: {
+    location: location
+    baseName: linuxWebConfig.basename
+    count: linuxWebConfig.count
+    vmSize: linuxWebConfig.vmSize
+    adminUsername: linuxWebConfig.adminUsername
+    subnetId: testnet.outputs.subnetIds[0].id
+    adminPassword: linuxWebAdminPassword
   }
 }

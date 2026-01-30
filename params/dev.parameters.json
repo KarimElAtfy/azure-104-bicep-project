@@ -95,6 +95,35 @@
 
         "lbname": {
             "value": "lb-dev-norwayeast"
+        },
+
+        "linuxWebConfig":{
+            "value" : {
+                "baseName": "test-app",
+                "vmSize": "Standard_B1s",
+                "count": 1,
+                "adminUsername": "linuxadmin"
+            }
+        },
+
+        "linuxWebAdminPassword": {
+            "reference": {
+                "keyVault": {
+                    "id": "/subscriptions/c2236cf0-5dde-46d7-a8c4-3c0cfea4dbec/resourceGroups/rg-104-project/providers/Microsoft.KeyVault/vaults/project-keyvault-104"
+                },
+
+                "secretName": "linuxwebadmin"
+            }
+        },
+
+        "testvnet": {
+            "value": {
+                "name": "vnet-test-norwayeast",
+                "addressPrefixes": ["10.1.0.0/16"],
+                "subnets": [
+                    {"name": "snet-test-app","prefix": "10.1.0.0/24"}
+                ]
+            }
         }
 
     }
