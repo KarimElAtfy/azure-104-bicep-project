@@ -1,3 +1,4 @@
+@description('Load balancer backend pool resource ID.')
 param lbBackendPoolId string
 
 
@@ -10,18 +11,23 @@ param scriptCommand string = 'powershell -ExecutionPolicy Bypass -File .\\instal
 
 
 
+@description('Azure region for the VM resources.')
 param location string
 
+@description('Virtual machine size.')
 param vmSize string
 
+@description('Local administrator username for the VM.')
 param adminUsername string = 'AzureAdmin'
 
 @secure()
+@description('Local administrator password for the VM.')
 param adminPassword string 
 
-@description('Name of the VM. This is a int.')
+@description('Number of VMs to deploy.')
 param count int
 
+@description('Base name for VM and NIC resources.')
 param basename string
 
 var indexes = [for i in range(1, count) : i]
@@ -29,6 +35,7 @@ var vmNames = [for i in indexes: 'vm-${basename}-${i}']
 
 var nicNames = [for i in indexes: 'nic-${basename}-${i}']
 
+@description('Subnet resource ID for the network interface.')
 param subnetId string
 
 

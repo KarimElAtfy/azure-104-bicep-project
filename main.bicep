@@ -1,13 +1,21 @@
+@description('Deployment location for all resources.')
 param location string
+@description('Virtual network configuration object.')
 param vnet object
+@description('Storage account configuration object.')
 param storageAccount object
+@description('Network security group configuration object.')
 param NSG object
+@description('Windows VM web tier configuration object.')
 param WinWebConfig object
+@description('Internal load balancer name.')
 param lbname string
 
 @secure()
+@description('Administrator password for the Windows web tier.')
 param winWebAdminPassword string
 
+@description('Azure Bastion configuration object.')
 param bastion object
 var nsgAttachements = [
   {
