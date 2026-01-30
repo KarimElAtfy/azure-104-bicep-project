@@ -3,29 +3,29 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
    
-        "location":{"value": "norwayeast"},
+        "location":{"value": "eastus"},
 
 
         "vnet": {
             "value": {
-                "name": "vnet-dev-norwayeast",
+                "name": "vnet-dev-001",
                 "addressPrefixes": ["10.0.0.0/16"],
                 "subnets": [
-                    {"name": "snet-dev-nwyeast-web-01","prefix": "10.0.0.0/24"},
-                    {"name": "snet-dev-nwyeast-db-01","prefix": "10.0.1.0/24"},
+                    {"name": "snet-dev-web-01","prefix": "10.0.0.0/24"},
+                    {"name": "snet-dev-db-01","prefix": "10.0.1.0/24"},
                     {"name": "AzureBastionSubnet","prefix": "10.0.2.0/24"}
                 ]
             }
         },
 
 
-        "storageAccount": {"value" : {"name": "stgdevnorwayeast"}},
+        "storageAccount": {"value" : {"name": "stgdev0000"}},
 
 
         "NSG": {
             "value" : {
 
-                "name": "NSG-shared-norwayeast-01",
+                "name": "nsg-shared-dev-01",
 
                 "rules": [
                     {
@@ -36,7 +36,7 @@
                             "protocol": "Tcp",
                             "sourcePortRange": "*",
                             "destinationPortRange": "3389",
-                            "sourceAddressPrefix": "*",
+                            "sourceAddressPrefix": "REPLACE_WITH_ADMIN_IP",
                             "destinationAddressPrefix": "*",
                             "access": "Allow",
                             "priority": 400,
@@ -69,17 +69,17 @@
         "WinWebConfig":{
             "value" : {
                 "vmSize" : "Standard_D2s_v3",
-                "adminUsername" : "AzureAdmin",
+                "adminUsername" : "adminuser",
                 "basename" : "dev",
                 "count": 2,
-                "scriptUri": "https://stgdevnorwayeast.blob.core.windows.net/scripts/install-webserver.ps1?sp=r&st=2026-01-30T09:49:11Z&se=2026-01-30T18:04:11Z&spr=https&sv=2024-11-04&sr=b&sig=uMOmkb7YSI0fzJzbG9i%2FwUd2ZzkHK6uj0CKE%2Bcy4hzQ%3D"
+                "scriptUri": "https://storageaccount.blob.core.windows.net/scripts/install-webserver.ps1?<sas-token>"
             }
         },
 
         "winWebAdminPassword": {
             "reference": {
                 "keyVault": {
-                    "id": "/subscriptions/c2236cf0-5dde-46d7-a8c4-3c0cfea4dbec/resourceGroups/rg-104-project/providers/Microsoft.KeyVault/vaults/project-keyvault-104"
+                    "id": "/subscriptions/<subscription-id>/resourceGroups/<rg-name>/providers/Microsoft.KeyVault/vaults/<kv-name>"
                 },
 
                 "secretName": "winwebadmin"
@@ -88,13 +88,13 @@
 
         "bastion": {
             "value": {
-                "pipName": "pip-bastion-dev-norwayeast",
-                "name": "bastion-dev-norwayeast"
+                "pipName": "pip-bastion-dev-01",
+                "name": "bastion-dev-01"
             }
         },
 
         "lbname": {
-            "value": "lb-dev-norwayeast"
+            "value": "lb-dev-01"
         },
 
         "linuxWebConfig":{
@@ -109,7 +109,7 @@
         "linuxWebAdminPassword": {
             "reference": {
                 "keyVault": {
-                    "id": "/subscriptions/c2236cf0-5dde-46d7-a8c4-3c0cfea4dbec/resourceGroups/rg-104-project/providers/Microsoft.KeyVault/vaults/project-keyvault-104"
+                    "id": "/subscriptions/<subscription-id>/resourceGroups/<rg-name>/providers/Microsoft.KeyVault/vaults/<kv-name>"
                 },
 
                 "secretName": "linuxwebadmin"
@@ -118,7 +118,7 @@
 
         "testvnet": {
             "value": {
-                "name": "vnet-test-norwayeast",
+                "name": "vnet-test-001",
                 "addressPrefixes": ["10.1.0.0/16"],
                 "subnets": [
                     {"name": "snet-test-app","prefix": "10.1.0.0/24"}
